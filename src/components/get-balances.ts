@@ -9,6 +9,12 @@ const ANRK_API_KEY =
 // Generate a cache key based on an invalidation trigger (e.g., a counter or timestamp)
 export const cachedFetchData = unstable_cache(
   async function fetchBalances() {
+    // avoid doing the call if there is not wallet address
+    // we'll get this information from the database.
+    // possible cases: undefined, empty, null, string.
+    if (!WALLET_ADDRESS) {
+      return null;
+    }
     const provider = new AnkrProvider(ANRK_API_KEY);
     const balances = await provider.getAccountBalance({
       walletAddress: WALLET_ADDRESS,
@@ -16,9 +22,9 @@ export const cachedFetchData = unstable_cache(
     return balances;
   },
   // here we add the userID in the keyParts so Next.js can make separate caches for the different userID's
-  [WALLET_ADDRESS],
+  ["fetchBalances"],
   {
-    tags: ["cached-balances-tag"],
+    tags: [`cached-balances-tag-${WALLET_ADDRESS}`],
     revalidate: 60, // Optional: Cache for 60 seconds by default
   }
 );
