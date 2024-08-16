@@ -1,7 +1,8 @@
 import { AnkrProvider } from "@ankr.com/ankr.js";
 import { unstable_cache } from "next/cache";
 
-const WALLET_ADDRESS = "0xfa9019df60d3c710d7d583b2d69e18d412257617";
+const WALLET_ADDRESS = "0x2e4234B6d6805034f6c61b1172A9270B2958F32d";
+// 0x088b4DeD793C26864EF5eec465229a49bAd87C8e
 
 const ANRK_API_KEY =
   "https://rpc.ankr.com/multichain/76fe09906ea83f814dfe76d8fadba07e0202557dd24a9f8cc8080cc418a167e0";
@@ -22,7 +23,7 @@ export const cachedFetchData = unstable_cache(
     return balances;
   },
   // here we add the userID in the keyParts so Next.js can make separate caches for the different userID's
-  ["fetchBalances"],
+  ["fetchBalances", WALLET_ADDRESS],
   {
     tags: [`cached-balances-tag-${WALLET_ADDRESS}`],
     revalidate: 60, // Optional: Cache for 60 seconds by default
