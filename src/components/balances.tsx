@@ -30,7 +30,7 @@ export default function Balances() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <h1>Total balance: {data.totalBalanceUsd}</h1>
       <div className="grid grid-col-1 lg:grid-cols-3 gap-3">
         {data.assets.map((asset) => {
